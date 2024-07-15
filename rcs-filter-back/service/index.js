@@ -24,27 +24,27 @@ const getNumbers = (number) => {
 }
 
 const checkCapabilits = async () => {
-    console.log('cheguei')
-    const baseUrl = "https://rcsbusinessmessaging.googleapis.com/v1/phones/11949752183/capabilities";
-    
-    let email = "rbm-agent@rbm-pontaltech-dev-ynhiurf.iam.gserviceaccount.com";
+    try {
+        const baseUrl = "https://rcsbusinessmessaging.googleapis.com/v1/+5511952472802/capabilities";
 
-    let privatekey= ``;
+        let email = "rbm-agent@rbm-pontaltech-dev-ynhiurf.iam.gserviceaccount.com";
 
+        let privatekey= ``;
 
-    let accessToken = await new Token().execute(email, privatekey);
-    process.exit();
+        let accessToken = await new Token().execute(email, privatekey);
 
-    let request = axios.get(baseUrl, {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-        }
-    });
+        let request = await axios.get(baseUrl, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
 
-    //console.log(request);
+        console.log('Q', request.status);
 
-    return true
+        return true
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export {
