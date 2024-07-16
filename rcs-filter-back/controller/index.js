@@ -37,7 +37,6 @@ class Check {
             fileContent = fileContent.replace(/[^\d;]/g, '');
             let dataArray = fileContent.split(';');
 
-            // get numbers
             let numbers_clean = getNumbers(dataArray)
             let your_base;
 
@@ -49,7 +48,7 @@ class Check {
                 });
             } else {
                 your_base = await checkCapabilits(numbers_clean);
-s
+
                 return res.status(200).json({
                     message: 'File read successfully',
                     content: your_base,
