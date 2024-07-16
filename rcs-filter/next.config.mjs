@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        RCS_FILTER: 'http://127.0.0.1:3060',
+        RCS_FILTER: 'http://18.191.234.240:3060',
     },
 };
 
