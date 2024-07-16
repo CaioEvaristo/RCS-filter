@@ -5,7 +5,6 @@ class Check {
     async single(req, res) {
         try {
             let { number, email, key } = req.body;
-            console.log(req.body)
             number = number.split(';');
 
             let numbers_clean = getNumbers(number);

@@ -38,7 +38,6 @@ export default function Home() {
       const data = await response.json();
       setResult(data);
       setError(null);
-      console.log('Success:', data);
     } catch (error) {
       setError(error.message);
       console.error('Error:', error);
@@ -71,7 +70,6 @@ export default function Home() {
       const data = await response.json();
       setResult(data);
       setError(null);
-      console.log('Success:', data);
     } catch (error) {
       setError(error.message);
       console.error('Error:', error);

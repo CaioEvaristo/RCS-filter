@@ -1,6 +1,5 @@
 import multer from 'multer';
 import rbmApiHelper from '@google/rcsbusinessmessaging';
-import keys from './keys.js';
 
 const storage = multer.memoryStorage();
 
