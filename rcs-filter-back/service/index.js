@@ -1,6 +1,6 @@
 import multer from 'multer';
-import axios from 'axios';
-import { Token } from './token.js';
+import rbmApiHelper from '@google/rcsbusinessmessaging'
+import keys from './keys.js'
 
 const storage = multer.memoryStorage();
 
@@ -25,21 +25,10 @@ const getNumbers = (number) => {
 
 const checkCapabilits = async () => {
     try {
-        const baseUrl = "https://rcsbusinessmessaging.googleapis.com/v1/+5511952472802/capabilities";
-
-        let email = "rbm-agent@rbm-pontaltech-dev-ynhiurf.iam.gserviceaccount.com";
-
-        let privatekey= ``;
-
-        let accessToken = await new Token().execute(email, privatekey);
-
-        let request = await axios.get(baseUrl, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
+        rbmApiHelper.initRbmApi(keys);
+        rbmApiHelper.checkCapability('+5511956579700', (response) => {
+            console.log('Foi ?', response)
         });
-
-        console.log('Q', request.status);
 
         return true
     } catch (error) {
