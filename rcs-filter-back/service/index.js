@@ -40,40 +40,42 @@ const getNumbers = (number) => {
     }
 }
 
-const checkCapabilits = async (numbers) => {
+const checkCapabilits = async (numbers, client_email, private_key) => {
     try {
         let valid=[];
         let invalid=numbers.invalid;
-        await rbmApiHelper.initRbmApi(keys);
+        private_key = private_key.split(String.raw`\n`).join('\n');
+
+        await rbmApiHelper.initRbmApi({client_email, private_key});
 
         if (!numbers.valid) {
             return numbers.invalid
         }
 
         await new Promise((resolve, reject) => {
-            rbmApiHelper.getUsers(numbers.valid, async (response) => {
-              try {
-                await Promise.all(numbers.valid.map(async (element) => {
-                  if (response
-                        && response.data
-                        && response.data.reachableUsers 
-                        && response.data.reachableUsers.includes(element)) {
-                    valid.push(element);
-                  } else {
-                    invalid.push(element);
-                  }
-                }));
-                resolve();
-              } catch (error) {
-                reject(error);
-              }
-            });
-          });
+          	rbmApiHelper.getUsers(numbers.valid, async (response) => {
+				try {
+					await Promise.all(numbers.valid.map(async (element) => {
+						if (response
+							&& response.data
+							&& response.data.reachableUsers 
+							&& response.data.reachableUsers.includes(element)) {
+						valid.push(element);
+						} else {
+						invalid.push(element);
+						}
+					}));
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+        });
           
-          return {
-            valid,
-            invalid
-          };
+		return {
+		valid,
+		invalid
+		};
 
     } catch (error) {
         console.log(error)

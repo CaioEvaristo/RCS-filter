@@ -4,7 +4,8 @@ class Check {
 
     async single(req, res) {
         try {
-            let {number} = req.body;
+            let { number, email, key } = req.body;
+            console.log(req.body)
             number = number.split(';');
 
             let numbers_clean = getNumbers(number);
@@ -16,7 +17,7 @@ class Check {
                     content: numbers_clean,
                 });
             } else {
-                your_base = await checkCapabilits(numbers_clean)
+                your_base = await checkCapabilits(numbers_clean, email, key)
 
                 return res.status(200).json({
                     message: 'File read successfully',
@@ -33,9 +34,11 @@ class Check {
         try {
             const fileBuffer = req.file.buffer;
             let fileContent = fileBuffer.toString('utf-8');
-            
-            fileContent = fileContent.replace(/[^\d;]/g, '');
-            let dataArray = fileContent.split(';');
+            const {email, key} = req.body
+
+            fileContent = fileContent.replace(/[^\d;\n\r]/g, '');
+
+            let dataArray = fileContent.split(/[\n\r;]+/).filter(Boolean);
 
             let numbers_clean = getNumbers(dataArray)
             let your_base;
@@ -47,7 +50,7 @@ class Check {
                     content: numbers_clean,
                 });
             } else {
-                your_base = await checkCapabilits(numbers_clean);
+                your_base = await checkCapabilits(numbers_clean, email, key);
 
                 return res.status(200).json({
                     message: 'File read successfully',

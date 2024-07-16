@@ -7,10 +7,10 @@ import ErrorMessage from '../components/ErrorMessage';
 
 export default function Home() {
   const [file, setFile] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [key, setKey] = useState(null);
+  const [email, setEmail] = useState('');
+  const [key, setKey] = useState('');
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
+  const [error, setError] = useState(null);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -21,12 +21,14 @@ export default function Home() {
 
     const formData = new FormData(event.currentTarget);
     const number = formData.get('number');
+    formData.append("email", email);
+    formData.append("key", key);
 
     try {
       const response = await fetch(`${process.env.RCS_FILTER}/check/single`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ number }),
+        body: JSON.stringify({ number, email, key }),
       });
 
       if (!response.ok) {
@@ -83,6 +85,8 @@ export default function Home() {
         handleFileChange={handleFileChange}
         handleSubmitSingle={handleSubmitSingle}
         handleSubmitMultiple={handleSubmitMultiple}
+        setEmail={setEmail}
+        setKey={setKey}
       />
       {result && <Result result={result} />}
     </div>

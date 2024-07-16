@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +8,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const ImportTab = ({ handleFileChange, handleSubmitSingle, handleSubmitMultiple, setEmail, setKey }) => {
+  const [numberText, setNumberText] = useState('');
+
+  const handleNumberChange = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9;+]*$/;
+    if (regex.test(value)) {
+      setNumberText(value);
+    }
+  };
+
   return (
     <Tabs defaultValue="multiple">
       <TabsList>
@@ -34,9 +46,11 @@ const ImportTab = ({ handleFileChange, handleSubmitSingle, handleSubmitMultiple,
               />
               <Textarea 
                 name="number"
-                type="text" 
+                type="text"
                 id="number" 
-                placeholder="119999999999;119988888888;119999999999;119988888888" 
+                placeholder="119999999999;119988888888;119999999999;119988888888"
+                value={numberText}
+                onChange={handleNumberChange}
               />
               <Button type="submit" className="mt-6">
                 Confirmar
