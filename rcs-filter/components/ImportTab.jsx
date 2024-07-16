@@ -24,12 +24,12 @@ const ImportTab = ({ handleFileChange, handleSubmitSingle, handleSubmitMultiple,
             <form className="flex flex-col gap-4" onSubmit={handleSubmitSingle}>
               <Input 
                 type="email" 
-                placeholder="Seu e-mail" 
+                placeholder="Agent e-mail" 
                 onChange={(e) => setEmail(e.target.value)} 
               />
               <Input 
                 type="text" 
-                placeholder="Sua chave" 
+                placeholder="Agent key" 
                 onChange={(e) => setKey(e.target.value)} 
               />
               <Textarea 
@@ -58,13 +58,13 @@ const ImportTab = ({ handleFileChange, handleSubmitSingle, handleSubmitMultiple,
           <CardContent className="flex flex-col gap-4">
             <Input 
               type="email" 
-              placeholder="Seu e-mail" 
+              placeholder="Agent e-mail" 
               onChange={(e) => setEmail(e.target.value)} 
               required 
             />
             <Input 
               type="text" 
-              placeholder="Sua chave" 
+              placeholder="Agent key" 
               onChange={(e) => setKey(e.target.value)} 
               required 
             />

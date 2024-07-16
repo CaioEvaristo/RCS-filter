@@ -5,7 +5,7 @@ import { Table, TableBody, TableHead, TableCaption, TableCell, TableHeader, Tabl
 const Result = ({ result }) => {
   return (
     <Table>
-      <TableCaption>A list of your recent numbers.</TableCaption>
+      <TableCaption>importaçoes recentes</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[50%]">Numeros validos</TableHead>

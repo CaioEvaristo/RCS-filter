@@ -3,12 +3,14 @@
 import React, { useState } from 'react';
 import ImportTab from '../components/ImportTab';
 import Result from '../components/Result';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function Home() {
   const [file, setFile] = useState(null);
-  const [email, setEmail] = useState("");
-  const [key, setKey] = useState("");
-  const [result, setResult] = useState(null); // Estado para armazenar o resultado da API
+  const [email, setEmail] = useState(null);
+  const [key, setKey] = useState(null);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null); // Estado para armazenar a mensagem de erro
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -18,13 +20,13 @@ export default function Home() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    let number = formData.get('number');
+    const number = formData.get('number');
 
     try {
       const response = await fetch(`${process.env.RCS_FILTER}/check/single`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ number, email, key }), // Inclui email e key
+        body: JSON.stringify({ number }),
       });
 
       if (!response.ok) {
@@ -33,7 +35,10 @@ export default function Home() {
 
       const data = await response.json();
       setResult(data);
+      setError(null);
+      console.log('Success:', data);
     } catch (error) {
+      setError(error.message);
       console.error('Error:', error);
     }
   }
@@ -63,22 +68,22 @@ export default function Home() {
 
       const data = await response.json();
       setResult(data);
+      setError(null);
       console.log('Success:', data);
     } catch (error) {
+      setError(error.message);
       console.error('Error:', error);
     }
   }
 
   return (
-    <div className="container flex-col justify-center w-[500px] pt-[30px]">
+    <div className="container grid grid-cols-2 gap-4 p-[30px]">
+      {error && <ErrorMessage message={error} />}
       <ImportTab
         handleFileChange={handleFileChange}
         handleSubmitSingle={handleSubmitSingle}
         handleSubmitMultiple={handleSubmitMultiple}
-        setEmail={setEmail}
-        setKey={setKey}
       />
-
       {result && <Result result={result} />}
     </div>
   );
