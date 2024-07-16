@@ -4,19 +4,25 @@ class Check {
 
     async single(req, res) {
         try {
-            //get numbers
-            let {number} = req.body
-            number = number.split(';')
+            let {number} = req.body;
+            number = number.split(';');
 
-            let numbers_clean = getNumbers(number)
+            let numbers_clean = getNumbers(number);
+            let your_base;
 
-            // check numbers
-            await checkCapabilits()
+            if (!numbers_clean.valid) {
+                return res.status(200).json({
+                    message: 'File read successfully',
+                    content: numbers_clean,
+                });
+            } else {
+                your_base = await checkCapabilits(numbers_clean)
 
-            res.status(200).json({
-                message: 'File read successfully',
-                content: numbers_clean,
-            });
+                return res.status(200).json({
+                    message: 'File read successfully',
+                    content: your_base,
+                });
+            }
         } catch (error) {
             console.log(error)
             return res.send(error);
@@ -33,15 +39,22 @@ class Check {
 
             // get numbers
             let numbers_clean = getNumbers(dataArray)
+            let your_base;
 
-            console.log('1')
+            if (!numbers_clean.valid) {
 
-            await checkCapabilits()
-
-            res.status(200).json({
-                message: 'File read successfully',
-                content: numbers_clean,
-            });
+                return res.status(200).json({
+                    message: 'File read successfully',
+                    content: numbers_clean,
+                });
+            } else {
+                your_base = await checkCapabilits(numbers_clean);
+s
+                return res.status(200).json({
+                    message: 'File read successfully',
+                    content: your_base,
+                });
+            }
         } catch (error) {
             console.log(error)
             return res.send(error);

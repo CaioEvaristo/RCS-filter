@@ -21,7 +21,6 @@ async function mongodb_list(params) {
 
         return result;
     } catch (error) {
-        console.log(error)
         throw error.message;
     }
 }
