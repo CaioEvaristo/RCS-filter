@@ -41,46 +41,58 @@ const getNumbers = (number) => {
 
 const checkCapabilits = async (numbers, client_email, private_key) => {
     try {
-        let valid=[];
-        let invalid=numbers.invalid;
+        let valid = [];
+        let invalid = numbers.invalid || [];
+		let  features = {}
         private_key = private_key.split(String.raw`\n`).join('\n');
 
-        await rbmApiHelper.initRbmApi({client_email, private_key});
+        await rbmApiHelper.initRbmApi({ client_email, private_key });
 
         if (!numbers.valid) {
-            return numbers.invalid
+            return { valid, invalid };
         }
 
         await new Promise((resolve, reject) => {
-          	rbmApiHelper.getUsers(numbers.valid, async (response) => {
-				try {
-					await Promise.all(numbers.valid.map(async (element) => {
-						if (response
-							&& response.data
-							&& response.data.reachableUsers 
-							&& response.data.reachableUsers.includes(element)) {
-						valid.push(element);
-						} else {
-						invalid.push(element);
-						}
-					}));
-					resolve();
-				} catch (error) {
-					reject(error);
-				}
-			});
+            let promises = [];
+
+            for (let num of numbers.valid) {
+                promises.push(
+                    new Promise((innerResolve, innerReject) => {
+                        rbmApiHelper.checkCapability(num, (response) => {
+                            try {
+                                if (response && (response.status === 200 || response.status === 403)) {
+                                    valid.push(num);
+									features[num] = response.data.features;
+                                } else {
+                                    invalid.push(num);
+                                }
+                                innerResolve();
+                            } catch (error) {
+                                invalid.push(num);
+                                innerReject(error);
+                            }
+                        });
+                    })
+                );
+            }
+
+            Promise.all(promises)
+                .then(() => resolve())
+                .catch(reject);
         });
-          
-		return {
-		valid,
-		invalid
-		};
+
+        console.log(features);
+        return {
+            valid,
+            invalid,
+			features
+        };
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return {};
     }
-}
+};
 
 export {
     save,

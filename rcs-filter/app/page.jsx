@@ -78,7 +78,7 @@ export default function Home() {
 
   return (
     <div className="container grid grid-cols-2 gap-4 p-[30px]">
-      {error && <ErrorMessage message={error} />}
+      
       <ImportTab
         handleFileChange={handleFileChange}
         handleSubmitSingle={handleSubmitSingle}

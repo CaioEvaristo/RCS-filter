@@ -24,7 +24,7 @@ class Check {
                 });
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             return res.send(error);
         }
     }
@@ -57,7 +57,7 @@ class Check {
                 });
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             return res.send(error);
         }
     }
