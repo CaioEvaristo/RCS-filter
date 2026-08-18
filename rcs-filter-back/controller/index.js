@@ -10,6 +10,12 @@ class Check {
             let numbers_clean = getNumbers(number);
             let your_base;
 
+            console.log("numbers");
+
+            if (numbers_clean) {
+                return;
+            }
+
             if (!numbers_clean.valid) {
                 return res.status(200).json({
                     message: 'File read successfully',
